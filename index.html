@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>视频会议助手 | AI Meeting Copilot</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2323d7ee'/%3E%3Cpath d='M17 22h25a5 5 0 0 1 5 5v14a5 5 0 0 1-5 5H17a5 5 0 0 1-5-5V27a5 5 0 0 1 5-5Z' fill='none' stroke='%2304111d' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M47 30l8-5v18l-8-5M22 31h12M22 37h8M47 16l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z' fill='none' stroke='%2304111d' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <svg class="icon-sprite" aria-hidden="true">
+      <symbol id="icon-copilot" viewBox="0 0 24 24">
+        <path d="M5 7h9.8a2.7 2.7 0 0 1 2.7 2.7v5.6a2.7 2.7 0 0 1-2.7 2.7H5a2.7 2.7 0 0 1-2.7-2.7V9.7A2.7 2.7 0 0 1 5 7Z" />
+        <path d="m17.5 10.3 4.2-2.5v9.4l-4.2-2.5M6.2 11h6M6.2 14h4" />
+        <path d="m18.8 3.4.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7Z" />
+        <path d="M8.2 18v2M13.8 18v2" />
+      </symbol>
+      <symbol id="icon-dashboard" viewBox="0 0 24 24">
+        <path d="M4 5.5h6.3v6.3H4zM13.7 5.5H20v3.7h-6.3zM13.7 12.2H20v6.3h-6.3zM4 15h6.3v3.5H4z" />
+      </symbol>
+      <symbol id="icon-prep" viewBox="0 0 24 24">
+        <path d="M6.5 4.5h8.8l3.2 3.2v11.8h-12z" />
+        <path d="M15.2 4.5v3.3h3.3M9 11h6M9 14h5M9 17h3" />
+      </symbol>
+      <symbol id="icon-review" viewBox="0 0 24 24">
+        <path d="M5 5.5h14v10H8.3L5 18.5z" />
+        <path d="M8.5 9h7M8.5 12h4.8" />
+      </symbol>
+      <symbol id="icon-tasks" viewBox="0 0 24 24">
+        <path d="m6 7 1.5 1.5L10.5 5M13 7h5M6 13l1.5 1.5 3-3.5M13 13h5M6 19l1.5 1.5 3-3.5M13 19h5" />
+      </symbol>
+      <symbol id="icon-guide" viewBox="0 0 24 24">
+        <path d="M12 4.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15Z" />
+        <path d="M12 16v-4M12 8.2v.1" />
+      </symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" />
+      </symbol>
+      <symbol id="icon-ai" viewBox="0 0 24 24">
+        <path d="M12 3.5 14.1 9l5.4 2.1-5.4 2.1L12 18.5l-2.1-5.3-5.4-2.1L9.9 9z" />
+        <path d="M18 4.5v3M16.5 6h3" />
+      </symbol>
+      <symbol id="icon-empty" viewBox="0 0 24 24">
+        <path d="M5 6.5h14v11H5z" />
+        <path d="M8 10h8M8 13h5" />
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <path d="M10.8 5.2a5.6 5.6 0 1 0 0 11.2 5.6 5.6 0 0 0 0-11.2ZM15 15l4 4" />
+      </symbol>
+      <symbol id="icon-clock" viewBox="0 0 24 24">
+        <path d="M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14Z" />
+        <path d="M12 8.2V12l2.6 1.7" />
+      </symbol>
+      <symbol id="icon-archive" viewBox="0 0 24 24">
+        <path d="M5 8h14v11H5zM4 5h16v3H4z" />
+        <path d="M9.5 12h5" />
+      </symbol>
+      <symbol id="icon-reminder" viewBox="0 0 24 24">
+        <path d="M7 10a5 5 0 0 1 10 0v4l1.5 2.5h-13L7 14zM10 19h4" />
+        <path d="M5.5 6.2 4 4.8M18.5 6.2 20 4.8" />
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <path d="m5 12.5 4.2 4.2L19 7" />
+      </symbol>
+      <symbol id="icon-warning" viewBox="0 0 24 24">
+        <path d="M12 4.2 20 18H4z" />
+        <path d="M12 9v4M12 16.2v.1" />
+      </symbol>
+      <symbol id="icon-copy" viewBox="0 0 24 24">
+        <path d="M8 8h10v12H8z" />
+        <path d="M6 16H4V4h10v2" />
+      </symbol>
+      <symbol id="icon-save" viewBox="0 0 24 24">
+        <path d="M5 4.5h12l2 2v13H5z" />
+        <path d="M8 4.5v5h7v-5M8.5 19.5v-5h7v5" />
+      </symbol>
+      <symbol id="icon-expand" viewBox="0 0 24 24">
+        <path d="M8.5 4.5H4.5v4M15.5 4.5h4v4M19.5 15.5v4h-4M4.5 15.5v4h4" />
+        <path d="M4.8 4.8 9 9M19.2 4.8 15 9M19.2 19.2 15 15M4.8 19.2 9 15" />
+      </symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24">
+        <path d="M5 7h14M9 7V4.8h6V7M7.5 7l.8 12h7.4l.8-12" />
+        <path d="M10.5 10.5v5M13.5 10.5v5" />
+      </symbol>
+      <symbol id="icon-restore" viewBox="0 0 24 24">
+        <path d="M6.5 8.5A7 7 0 1 1 5 13" />
+        <path d="M6.5 4.5v4h4" />
+      </symbol>
+      <symbol id="icon-spark" viewBox="0 0 24 24">
+        <path d="m10 4 1.6 4.4L16 10l-4.4 1.6L10 16l-1.6-4.4L4 10l4.4-1.6z" />
+        <path d="m17.5 13.5.9 2.2 2.1.8-2.1.8-.9 2.2-.8-2.2-2.2-.8 2.2-.8z" />
+      </symbol>
+      <symbol id="icon-clear" viewBox="0 0 24 24">
+        <path d="M5 15.5 12.5 8l4.5 4.5-5.7 5.7H7.2z" />
+        <path d="M14.7 10.2 18 6.9M5 20h14" />
+      </symbol>
+      <symbol id="icon-upload" viewBox="0 0 24 24">
+        <path d="M12 16V5M8 9l4-4 4 4" />
+        <path d="M5 15v4h14v-4" />
+      </symbol>
+      <symbol id="icon-send" viewBox="0 0 24 24">
+        <path d="M4 11.5 20 4l-5.5 16-3.2-6.2z" />
+        <path d="M11.3 13.8 20 4" />
+      </symbol>
+      <symbol id="icon-role" viewBox="0 0 24 24">
+        <path d="M8.5 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM4.5 19a4 4 0 0 1 8 0" />
+        <path d="M16 6.5h4M16 10.5h4M15 15.5h5" />
+      </symbol>
+      <symbol id="icon-edit" viewBox="0 0 24 24">
+        <path d="M5 18.5 6 14l9.7-9.7 4 4L10 18z" />
+        <path d="M14.5 5.5 18.5 9.5M5 20h14" />
+      </symbol>
+    </svg>
+
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="brand-mark">
+            <svg class="brand-icon"><use href="#icon-copilot"></use></svg>
+          </div>
+          <div>
+            <p class="eyebrow">AI Meeting Copilot</p>
+            <h1>视频会议助手</h1>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="主导航">
+          <button class="nav-item active" data-view="dashboard">
+            <span class="nav-label"><svg class="icon"><use href="#icon-dashboard"></use></svg>总览</span>
+            <small>会议状态</small>
+          </button>
+          <button class="nav-item" data-view="prep">
+            <span class="nav-label"><svg class="icon"><use href="#icon-prep"></use></svg>会前准备</span>
+            <small>议程与清单</small>
+          </button>
+          <button class="nav-item" data-view="review">
+            <span class="nav-label"><svg class="icon"><use href="#icon-review"></use></svg>会后跟进</span>
+            <small>纪要与待办</small>
+          </button>
+          <button class="nav-item" data-view="tasks">
+            <span class="nav-label"><svg class="icon"><use href="#icon-tasks"></use></svg>任务追踪</span>
+            <small>Action Items</small>
+          </button>
+        </nav>
+
+        <div class="sidebar-note">
+          <span class="pulse-dot"></span>
+          <p>本 Demo 调用 DeepSeek 生成内容，并保留人工编辑与本地兜底，重点展示会议效率闭环。</p>
+        </div>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">会前准备 × 会后跟进</p>
+            <h2 id="viewTitle">会议效率总览</h2>
+          </div>
+          <div class="top-actions">
+            <button class="ghost-button icon-button" id="openGuideButton"><svg class="icon"><use href="#icon-guide"></use></svg>使用说明</button>
+            <button class="primary-button icon-button" data-switch-view="prep"><svg class="icon"><use href="#icon-plus"></use></svg>新建会议</button>
+          </div>
+        </header>
+
+        <section class="view active" id="dashboardView" data-view-panel="dashboard">
+          <div class="summary-strip" id="summaryStrip"></div>
+
+          <div class="two-column-layout">
+            <section class="panel panel-large">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Meeting Queue</p>
+                  <h3>会议列表</h3>
+                </div>
+                <button class="text-button icon-text-button" data-switch-view="prep"><svg class="icon"><use href="#icon-plus"></use></svg>添加会议</button>
+              </div>
+              <div class="search-bar">
+                <input id="meetingSearchInput" type="search" placeholder="搜索会议主题、类型、参会人或状态" />
+              </div>
+              <div class="meeting-list" id="meetingList"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Follow-up</p>
+                  <h3>近期待办</h3>
+                </div>
+              </div>
+              <div class="task-list compact" id="dashboardTaskList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="prepView" data-view-panel="prep">
+          <div class="split-workbench">
+            <section class="panel input-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Before Meeting</p>
+                  <h3>输入会议信息</h3>
+                </div>
+                <button class="text-button icon-text-button" id="loadPrepSampleButton"><svg class="icon"><use href="#icon-spark"></use></svg>填入示例</button>
+              </div>
+
+              <form class="meeting-form" id="meetingForm">
+                <div class="prep-mode-switch" aria-label="会前准备填写模式">
+                  <button class="mode-chip active" type="button" data-prep-mode="quick">轻量创建</button>
+                  <button class="mode-chip" type="button" data-prep-mode="advanced">补充设置</button>
+                  <p>先填主题、类型、时间、参会人和目标上下文即可生成；需要更精细控制时再展开补充设置。</p>
+                </div>
+
+                <label>
+                  会议主题
+                  <input id="meetingTitle" type="text" placeholder="例如：会员积分功能需求评审 / 用户增长活动复盘" />
+                </label>
+
+                <div class="form-grid">
+                  <label>
+                    会议类型
+                    <select id="meetingType">
+                      <option>需求评审</option>
+                      <option>产品评审</option>
+                      <option>项目同步</option>
+                      <option>用户访谈</option>
+                      <option>竞品分析</option>
+                      <option>运营复盘</option>
+                      <option>活动策划</option>
+                      <option>数据分析</option>
+                      <option>版本复盘</option>
+                      <option>客户沟通</option>
+                      <option>团队例会</option>
+                      <option>培训分享</option>
+                      <option>商务沟通</option>
+                      <option>面试准备</option>
+                      <option>面试复盘</option>
+                      <option>招聘沟通</option>
+                      <option>其他</option>
+                    </select>
+                  </label>
+                  <label>
+                    会议时间
+                    <input id="meetingTime" type="hidden" />
+                    <div class="time-pair">
+                      <input id="meetingDate" type="date" aria-label="会议日期" />
+                      <input id="meetingClock" type="time" aria-label="会议时刻" />
+                    </div>
+                  </label>
+                </div>
+
+                <label>
+                  参会人
+                  <input id="meetingAttendees" type="text" placeholder="例如：产品、设计、研发、测试；也可以只写部门/角色" />
+                </label>
+
+                <label>
+                  会议目标
+                  <textarea id="meetingGoal" rows="3" placeholder="本次会议希望确认什么？需要产出什么？"></textarea>
+                </label>
+
+                <label>
+                  会议上下文
+                  <textarea id="meetingContext" rows="4" placeholder="粘贴已有问题、业务现状、会议链接、材料链接或其他上下文信息"></textarea>
+                </label>
+
+                <div class="advanced-field settings-panel-intro">
+                  <span class="settings-kicker">补充设置</span>
+                  <strong>让 AI 更像会议秘书，而不是模板生成器</strong>
+                  <p>以下内容都不是必填项。补充后，AI 会更准确地安排议程、识别必到角色和输出待办。</p>
+                </div>
+
+                <label class="advanced-field">
+                  自定义类型（可选）
+                  <input id="customMeetingType" type="text" placeholder="列表里没有就写这里，例如：AIGC 功能评审、用户增长复盘、客户续约沟通" />
+                </label>
+
+                <div class="form-grid advanced-field">
+                  <label>
+                    决策方式
+                    <select id="meetingDecisionMethod">
+                      <option>共识确认</option>
+                      <option>负责人拍板</option>
+                      <option>投票表决</option>
+                      <option>会后异步确认</option>
+                      <option>仅信息同步</option>
+                    </select>
+                  </label>
+                  <label>
+                    会议节奏/时长
+                    <input id="meetingCadence" type="text" placeholder="例如：60 分钟；先对齐背景，再讨论方案，最后确认待办" />
+                  </label>
+                </div>
+
+                <div class="form-grid advanced-field">
+                  <label>
+                    主持人/汇报人
+                    <input id="meetingHost" type="text" placeholder="例如：产品经理 / 项目负责人" />
+                  </label>
+                  <label>
+                    预期输出物
+                    <input id="meetingDeliverable" type="text" placeholder="例如：确认 MVP 范围、输出待办清单" />
+                  </label>
+                </div>
+
+                <label class="advanced-field">
+                  需决策事项
+                  <textarea id="meetingDecisionItems" rows="3" placeholder="本次会议需要拍板哪些事项？例如：功能范围、上线时间、负责人"></textarea>
+                </label>
+
+                <div class="participant-planner advanced-field">
+                  <div class="planner-heading">
+                    <div>
+                      <strong>参会角色规划</strong>
+                      <span>标注必到/可选角色，避免人随便拉、会前没人准备。</span>
+                    </div>
+                    <div class="inline-actions">
+                      <button class="text-button icon-text-button" type="button" id="suggestRolesButton"><svg class="icon"><use href="#icon-role"></use></svg>按类型建议角色</button>
+                      <button class="text-button icon-text-button" type="button" id="addRoleButton"><svg class="icon"><use href="#icon-plus"></use></svg>新增角色</button>
+                    </div>
+                  </div>
+                  <div class="participant-role-list" id="participantRoleList"></div>
+                </div>
+
+                <div class="form-actions">
+                  <button class="primary-button icon-button" type="button" id="generatePrepButton"><svg class="icon"><use href="#icon-ai"></use></svg>生成并保存会议</button>
+                  <button class="ghost-button icon-button" type="button" id="clearPrepButton"><svg class="icon"><use href="#icon-clear"></use></svg>清空</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="panel output-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">AI Brief</p>
+                  <h3>会前简报</h3>
+                </div>
+                <div class="inline-actions">
+                  <button class="text-button icon-text-button" id="copyPrepButton"><svg class="icon"><use href="#icon-copy"></use></svg>复制</button>
+                  <button class="text-button icon-text-button" id="expandPrepButton"><svg class="icon"><use href="#icon-expand"></use></svg>展开查看</button>
+                  <button class="text-button icon-text-button" id="saveMeetingButton"><svg class="icon"><use href="#icon-save"></use></svg>保存修改</button>
+                </div>
+              </div>
+              <div class="ai-output empty" id="prepOutput">
+                <div class="empty-state">
+                  <span class="empty-state-icon"><svg class="icon"><use href="#icon-prep"></use></svg></span>
+                  <h4>填写会议信息后，生成结构化会前准备。</h4>
+                  <p>输出将包含会议目标摘要、建议议程、参会人准备清单、关键问题和风险提醒。生成后会自动保存，后续可直接进入会后跟进。</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="reviewView" data-view-panel="review">
+          <div class="split-workbench">
+            <section class="panel input-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">After Meeting</p>
+                  <h3>输入会议记录</h3>
+                </div>
+                <button class="text-button icon-text-button" id="loadReviewSampleButton"><svg class="icon"><use href="#icon-spark"></use></svg>填入示例</button>
+              </div>
+
+              <label class="select-label">
+                选择会议
+                <select id="reviewMeetingSelect"></select>
+              </label>
+
+              <div class="review-step">
+                <div class="review-step-heading">
+                  <span>1</span>
+                  <div>
+                    <strong>粘贴记录，先生成纪要</strong>
+                    <p>先完成摘要、结论和待办提取，再进入同步消息。</p>
+                  </div>
+                </div>
+
+                <div class="form-grid compact-grid">
+                  <label class="select-label">
+                    转写来源
+                    <select id="transcriptSource">
+                      <option>腾讯会议转写</option>
+                      <option>飞书妙记</option>
+                      <option>Zoom 转写</option>
+                      <option>录音转文字</option>
+                      <option>手动会议记录</option>
+                      <option>其他来源</option>
+                    </select>
+                  </label>
+
+                  <div class="mode-switch compact-mode" aria-label="会后输入方式">
+                    <button class="mode-chip active" type="button" data-review-mode="transcript">转写文本</button>
+                    <button class="mode-chip" type="button" data-review-mode="manual">手动纪要</button>
+                  </div>
+                </div>
+
+                <label>
+                  会议记录/转写文本
+                  <textarea id="meetingTranscript" rows="11" placeholder="粘贴会议转写文本或手动会议记录"></textarea>
+                </label>
+              </div>
+
+              <label class="file-import">
+                <span class="file-import-title"><svg class="icon"><use href="#icon-upload"></use></svg>导入转写文件（支持 .txt / .md）</span>
+                <input id="transcriptFileInput" type="file" accept=".txt,.md,text/plain,text/markdown" />
+                <span>Word / PDF 暂不直接解析，建议先导出为文本后导入。</span>
+              </label>
+
+              <div class="form-actions">
+                <button class="primary-button icon-button" id="generateMinutesButton"><svg class="icon"><use href="#icon-ai"></use></svg>生成会议纪要</button>
+                <button class="ghost-button icon-button" id="clearReviewButton"><svg class="icon"><use href="#icon-clear"></use></svg>清空记录</button>
+              </div>
+
+              <div class="followup-box">
+                <div class="followup-heading">
+                  <div class="review-step-heading compact">
+                    <span>2</span>
+                    <div>
+                      <p class="eyebrow">Follow-up Message</p>
+                      <h3>会后同步消息</h3>
+                      <p class="panel-description">生成纪要后，再把结论和待办整理成可发到群聊/邮件的同步消息。</p>
+                    </div>
+                  </div>
+                  <div class="inline-actions followup-actions">
+                    <button class="text-button icon-text-button" id="generateFollowMessageButton"><svg class="icon"><use href="#icon-send"></use></svg>重新生成</button>
+                    <button class="text-button icon-text-button" id="copyFollowMessageButton"><svg class="icon"><use href="#icon-copy"></use></svg>复制消息</button>
+                    <button class="text-button icon-text-button" id="expandFollowButton"><svg class="icon"><use href="#icon-expand"></use></svg>展开查看</button>
+                  </div>
+                </div>
+                <div class="source-banner compact" id="followSourceBanner"></div>
+                <textarea
+                  class="follow-message-editor"
+                  id="followMessageOutput"
+                  rows="5"
+                  placeholder="选择一场会议并生成纪要后，这里会展示可直接发送到群聊或邮件的跟进消息。"
+                ></textarea>
+              </div>
+            </section>
+
+            <section class="panel output-panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Minutes & Actions</p>
+                  <h3>纪要与待办</h3>
+                </div>
+                <div class="inline-actions">
+                  <button class="text-button icon-text-button" id="copyMinutesButton"><svg class="icon"><use href="#icon-copy"></use></svg>复制纪要</button>
+                  <button class="text-button icon-text-button" id="expandMinutesButton"><svg class="icon"><use href="#icon-expand"></use></svg>展开查看</button>
+                </div>
+              </div>
+              <div class="ai-output empty" id="minutesOutput">
+                <div class="empty-state">
+                  <span class="empty-state-icon"><svg class="icon"><use href="#icon-review"></use></svg></span>
+                  <h4>粘贴会议记录后，AI 将生成纪要和 Action Items。</h4>
+                  <p>支持提取关键结论、未决事项、风险提醒、负责人和截止时间。生成后可以人工修改。</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="tasksView" data-view-panel="tasks">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Action Tracker</p>
+                <h3>跨会议待办追踪</h3>
+                <p class="panel-description">这里不是单独填写任务的地方，而是自动汇总“会后跟进”里从会议纪要提取出的 Action Items，方便持续更新负责人、截止时间和完成状态。</p>
+              </div>
+              <div class="panel-actions">
+                <button class="ghost-button icon-button" type="button" data-add-task><svg class="icon"><use href="#icon-plus"></use></svg>新增待办</button>
+                <div class="filter-group">
+                  <button class="filter-chip active" data-task-filter="全部"><svg class="icon"><use href="#icon-tasks"></use></svg>全部</button>
+                  <button class="filter-chip" data-task-filter="未开始"><svg class="icon"><use href="#icon-clock"></use></svg>未开始</button>
+                  <button class="filter-chip" data-task-filter="进行中"><svg class="icon"><use href="#icon-reminder"></use></svg>进行中</button>
+                  <button class="filter-chip" data-task-filter="已完成"><svg class="icon"><use href="#icon-check"></use></svg>已完成</button>
+                  <button class="filter-chip" data-task-filter="延期"><svg class="icon"><use href="#icon-warning"></use></svg>延期</button>
+                </div>
+              </div>
+            </div>
+            <div class="task-table" id="taskTable"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="modal-backdrop" id="guideModal" aria-hidden="true">
+      <section class="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+        <button class="modal-close" id="closeGuideButton" aria-label="关闭使用说明">×</button>
+        <p class="eyebrow">Quick Guide</p>
+        <h3 id="guideTitle">3 分钟跑通会议闭环</h3>
+        <div class="guide-fast-track">
+          <span class="fast-track-label">最快体验路径</span>
+          <p>填入示例 → 生成并保存会议 → 会后跟进填入示例 → 生成会议纪要 → 任务追踪查看 Action Items。</p>
+        </div>
+        <div class="guide-steps">
+          <article>
+            <span class="step-icon"><svg class="icon"><use href="#icon-prep"></use></svg></span>
+            <div>
+              <h4>1. 会前准备</h4>
+              <p>填写基础信息或使用随机示例，点击“生成并保存会议”，系统会生成会前简报并自动保存。</p>
+            </div>
+          </article>
+          <article>
+            <span class="step-icon"><svg class="icon"><use href="#icon-clock"></use></svg></span>
+            <div>
+              <h4>2. 会中开会</h4>
+              <p>仍在腾讯会议、飞书或 Zoom 中开会，结束后把转写文本或手动纪要粘贴回来。</p>
+            </div>
+          </article>
+          <article>
+            <span class="step-icon"><svg class="icon"><use href="#icon-review"></use></svg></span>
+            <div>
+              <h4>3. 会后整理</h4>
+              <p>进入“会后跟进”粘贴记录，AI 会提取会议摘要、关键结论和待办事项。</p>
+            </div>
+          </article>
+          <article>
+            <span class="step-icon"><svg class="icon"><use href="#icon-tasks"></use></svg></span>
+            <div>
+              <h4>4. 跟进待办</h4>
+              <p>Action Items 会同步到“任务追踪”，可更新负责人、截止时间和状态。</p>
+            </div>
+          </article>
+        </div>
+        <div class="guide-notes" aria-label="产品边界说明">
+          <span><strong>工具边界</strong> 不做实时视频会议，只处理会前准备和会后转写内容。</span>
+          <span><strong>数据说明</strong> 示例为随机办公会议，本地数据仅保存在当前浏览器。</span>
+        </div>
+        <div class="guide-tip">
+          <strong>一句话理解：</strong>
+          它是“会前准备秘书 + 会后纪要秘书”，把会议变成可准备、可记录、可追踪的协作流程。
+        </div>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="textModal" aria-hidden="true">
+      <section class="guide-modal text-preview-modal" role="dialog" aria-modal="true" aria-labelledby="textModalTitle">
+        <button class="modal-close" id="closeTextModalButton" aria-label="关闭预览">×</button>
+        <p class="eyebrow">Preview</p>
+        <h3 id="textModalTitle">内容预览</h3>
+        <textarea class="modal-textarea" id="textModalContent" rows="16" readonly></textarea>
+        <div class="modal-actions">
+          <button class="ghost-button" id="closeTextModalSecondaryButton">关闭</button>
+          <button class="primary-button icon-button" id="copyTextModalButton"><svg class="icon"><use href="#icon-copy"></use></svg>复制内容</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
